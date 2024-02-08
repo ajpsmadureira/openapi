@@ -1,0 +1,27 @@
+- restConfiguration:
+    bindingMode: json
+    contextPath: /
+    apiContextPath: "{{quarkus.swagger-ui.urls.camel}}"
+    apiProperty:
+      - key: api.title
+        value: "{{quarkus.swagger-ui.title}}"
+      - key: api.version
+        value: 0.1
+- rest:
+    get:
+      - path: /ping
+        produces: application/json
+        to:
+          uri: direct:ping
+      - path: /health
+        produces: application/json
+        to:
+          uri: direct:health
+- route:
+    from:
+      uri: direct:ping
+      steps:
+        - setBody:
+            expression:
+              constant:
+                expression: Ok
